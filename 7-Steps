@@ -1,96 +1,103 @@
-package LoadingDriver;
+JDBC:
+	Jdbc Stands for Java DataBase Connectivity
 
-import java.sql.*;
+	* Which is Used to Interactly Communicate Java Application to RDBMS Application
+We Follow 7 Steps:
+	1.)Loading Driver
+	2.)Create the Connection
+	3.)Issue the Query
+	4.)Create the Statement
+	5.)Execute the Query
+	6.)Process the Query
+	7.)Close the Statement
 
-public class Step1 {
+Loading The Driver:
+	Loading the Driver We can Load by Using rt.jar File.
 
-	public static void main(String[] args) throws Exception {
-		delete();
-	}
+	Code:
+		Class.forName("com.mysql.cj.jdbc.Driver");
 
-	public static void readRecords() throws Exception {
-		String url = "jdbc:mysql://localhost:3306/jdbc";
-		String userName = "root";
-		String passWord = "root";
-		String query = "select * from emp";
+	*forName of method is Used to Loading the Driver.
+Create the Connection:
+	*Create the Connection we can Create By using getConnection() Method. 
+	*Which is Present in Java.sql.DriverManager class. 
+	*In this method we can pass Url,UserName,PassWord.
 
-		Connection con = DriverManager.getConnection(url, userName, passWord);
+	Code:
+		Connection con = DriverManager.getConnection(url,userName,passWord);
+
+Issue the Query:
+
+	In Query We have 4 types
+	1.)Static Select type Query
+	2.)static Other then Select Query
+	3.)Dynamic type Query
+	4.)Dynamic otherthen select type Query
+
+i)Static Select Query:
+	A Query Which is Starts in Select Query is Know as Select Query
+
+ii)Other then Select Query:
+	A Query Which is Satrts without Select Query is Known as Otherthan Select Query
+
+iii)Dynamic select type Query:
+	A Query Which is static select but which is contain placeholder is known as Dynamic Select type Query
+
+iv)Dynamic Otherthan Select type Query:
+	A Query which is start without select query but which is contain placeholder is known as Dynamic Otherthan Select type Query
+Create Statement:
+
+	In Statement we have 3 
+	1)Statement
+	2)PreparedStatement
+	3)CallableStatement
+
+i)Statement:
+
+	*It is a Interface Which is Present in Java.sql.Statment
+	*In Statement Interface we can create Statement by using createStatement() method.
+
+	Code:
 		Statement st = con.createStatement();
-		ResultSet rs = st.executeQuery(query);
+ii)PreparedStatement:
 
-		while (rs.next()) {
-			System.out.println("Employee Id :" + rs.getInt(1));
-			System.out.println("Employee Name:" + rs.getString(2));
-			System.out.println("Employee Salary:" + rs.getInt(3));
-		}
-		con.close();
-	}
+	*It is a Interface. Which is Present in java.sql.PreparedStatement
+	*When ever Placeholder - ? present in the query then they can make use of preparedStatement
+	*In preparedStatement Interface we can create Statement by using prepareStatement() method	
+
+	Code:
+		PreparedStatement pst = con.prepareStatement();
+
+iii)CallableStatement
+
+	*It is a CallableStatement.Which is Present in java.sql.CallableStatement
+	*When ever we want pass and return value form the procedure then they can make 
+use of CallableStatement.
+	*In callable Statement we can call by Using prepareCall() method.
+
+	Code:
+	CallableStatement cst = con.prepareCall();
 	
-	public static void insertRecord() throws Exception {
-		String url = "jdbc:mysql://localhost:3306/jdbc";
-		String userName = "root";
-		String passWord = "root";
-		String query = "insert into emp values(4,'Munish',400)";
+Execute the Query:
 
-		Connection con = DriverManager.getConnection(url, userName, passWord);
-		Statement st = con.createStatement();
-		int rows = st.executeUpdate(query);
-		
-		System.out.println("Number of rows Affected "+rows);
-		con.close();
-	}
-	public static void insertVar() throws Exception {
-		String url = "jdbc:mysql://localhost:3306/jdbc";
-		String userName = "root";
-		String passWord = "root";
-		
-		int id = 5;
-		String name = "Abimanyu";
-		int sal = 6000;
-		String query = "insert into emp values("+id+",'"+name+"',"+sal+");";
+	1)executeQuery();
+	2)executeUpdate();
 
-		Connection con = DriverManager.getConnection(url, userName, passWord);
-		Statement st = con.createStatement();
-		int rows = st.executeUpdate(query);
-		
-		System.out.println("Number of rows Affected "+rows);
-		con.close();
-	}
-	public static void insertpst()throws Exception
-	{
-		String url = "jdbc:mysql://localhost:3306/jdbc";
-		String userName = "root";
-		String passWord = "root";
-		
-		int emp_id = 5;
-		String name = "abi";
-		int sal = 500;
-		
-		String query = "insert into emp values (?,?,?);";
-		
-		Connection con = DriverManager.getConnection(url, userName, passWord);
-		PreparedStatement pst = con.prepareStatement(query);
-		pst.setInt(1, emp_id);
-		pst.setString(2, name);
-		pst.setInt(3, sal);
-		int rows = pst.executeUpdate();
-		System.out.println(rows);
-		con.close();
-	}
-	
-	public static void delete()throws SQLException
-	{
-		String url = "jdbc:mysql://localhost:3306/jdbc";
-		String userName = "root";
-		String passWord = "root";
-		String query = "update emp set sal = 1000 where emp_id = 5";
-		
-		Connection con = DriverManager.getConnection(url, userName, passWord);
-		Statement st = con.createStatement();
-		int rows = st.executeUpdate(query);
-		
-		System.out.println(rows);
-		con.close();
-		
-	}
-}
+i)Execute Query:
+	*executeQuery method is inbuild method which is return ResultSet.
+	*When ever we want to Hole Table then they can make use of Execute Query method.
+
+ii)Execute Update:
+	*ExecuteUpdate is a inbuild method which is return int value.
+	*When ever we want to update and delete then they can make use of ExecuteUpdate method.
+
+Process the Query:
+
+	*We can process the Query by using get Method().
+
+	code: 
+		rs.getInt(1);
+
+Close the Connection:
+	*In make use of close() method we can close the Connection.
+	*Without Close Connection we can Execute the Program.
